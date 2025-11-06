@@ -1,11 +1,12 @@
 import time
 import RPi.GPIO as GPIO
 
+
 class MotionPlanner:
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        
+
         GPIO.setup(17, GPIO.OUT)
         GPIO.setup(22, GPIO.OUT)
         GPIO.setup(24, GPIO.OUT)
@@ -109,17 +110,30 @@ class MotionPlanner:
 # planner = MotionPlanner()
 
 
-# planner.move_robot("MID", 0.01, 50)
-# planner.move_robot("MID", 0.01, 90)
-# planner.move_robot("MID", 0.01, 150)
-# planner.move_robot("MID", 0.01, 90)
+# planner.move_robot("MID", 0.001, 90 * 5)
+# planner.move_robot("MID", 0.001, 0 * 5)
+# planner.move_robot("MID", 0.001, -90 * 5)
+# planner.move_robot("MID", 0.001, 20 * 5)
+
 
 # planner.move_robot("LEFT", 0.01, 50)
 # planner.move_robot("LEFT", 0.01, 90)
-# planner.move_robot("LEFT", 0.01, 150)
+# planner.move_robot("LEFT", 0.01, 200)
 # planner.move_robot("LEFT", 0.01, 90)
 
 # planner.move_robot("RIGHT", 0.01, 70)
 # planner.move_robot("RIGHT", 0.01, 90)
-# planner.move_robot("RIGHT", 0.01, 120)
-# planner.move_robot("RIGHT", 0.01, 90)
+
+
+# def pick_and_raise():
+#     planner.move_robot("LEFT", 0.01, 180)
+#     planner.move_robot("RIGHT", 0.01, 210)
+#     planner.move_robot("RIGHT", 0.01, 90)
+#     planner.move_robot("LEFT", 0.01, 90)
+
+
+# for count in range(-90, 180, 30):
+#     planner.move_robot("MID", 0.01, count * 5)
+#     pick_and_raise()
+
+# planner.move_robot("MID", 0.001, 90 * 5)
