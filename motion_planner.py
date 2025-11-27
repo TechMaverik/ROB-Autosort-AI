@@ -103,37 +103,4 @@ class MotionPlanner:
         except KeyboardInterrupt:
             print("Interrupted by user. Cleaning up GPIO.")
 
-    GPIO.cleanup()
-
-
-# Example usage for rotating MID motor by 90 degrees CW, then CCW, etc.
-# planner = MotionPlanner()
-
-
-# planner.move_robot("MID", 0.001, 90 * 5)
-# planner.move_robot("MID", 0.001, 0 * 5)
-# planner.move_robot("MID", 0.001, -90 * 5)
-# planner.move_robot("MID", 0.001, 20 * 5)
-
-
-# planner.move_robot("LEFT", 0.01, 50)
-# planner.move_robot("LEFT", 0.01, 90)
-# planner.move_robot("LEFT", 0.01, 200)
-# planner.move_robot("LEFT", 0.01, 90)
-
-# planner.move_robot("RIGHT", 0.01, 70)
-# planner.move_robot("RIGHT", 0.01, 90)
-
-
-# def pick_and_raise():
-#     planner.move_robot("LEFT", 0.01, 180)
-#     planner.move_robot("RIGHT", 0.01, 210)
-#     planner.move_robot("RIGHT", 0.01, 90)
-#     planner.move_robot("LEFT", 0.01, 90)
-
-
-# for count in range(-90, 180, 30):
-#     planner.move_robot("MID", 0.01, count * 5)
-#     pick_and_raise()
-
-# planner.move_robot("MID", 0.001, 90 * 5)
+    # GPIO.cleanup()
