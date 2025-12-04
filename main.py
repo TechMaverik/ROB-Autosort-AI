@@ -5,6 +5,7 @@ from motion_planner import MotionPlanner
 
 
 cube_coordinates_image = []
+cube_color_image = []
 planner = MotionPlanner()
 
 
@@ -33,7 +34,7 @@ def find_centroid(mask):
 def identify_cubes():
     color_ranges = {
         "Yellow": ([20, 100, 100], [30, 255, 255], [0, 255, 255]),
-        "Green": ([40, 70, 70], [80, 255, 255], [0, 255, 0]),
+        # "Green": ([40, 70, 70], [80, 255, 255], [0, 255, 0]),
         "Red": ([170, 70, 70], [180, 255, 255], [0, 0, 255]),
         # "Blue": ([90, 70, 70], [130, 255, 255], [255, 0, 0]),
     }
@@ -54,6 +55,7 @@ def identify_cubes():
         mask = cv2.inRange(hsv, lower, upper)
         center = find_centroid(mask)
         cube_coordinates_image.append(center)
+        cube_color_image.append(color)
 
         if center is not None:
             cv2.circle(frame, center, 8, bgr, -1)
@@ -67,10 +69,11 @@ def identify_cubes():
                 2,
             )
     cv2.imwrite("identified_blocks.jpg", frame)
-    return cube_coordinates_image
+    color_cube_map = dict(zip(cube_color_image, cube_coordinates_image))
+    return color_cube_map
 
 
-def check_position(coordinate):
+def check_position(coordinate, color):
     print("DEBUG--->", coordinate)
     x = 100
     x2 = 300
@@ -78,52 +81,137 @@ def check_position(coordinate):
     x4 = 630
     speed = 0.009
     try:
-        if coordinate is not None:
-            if coordinate[0] < x:
-                planner.move_robot("MID", speed, 0 * 5)
-                pick_and_raise()
-                planner.move_robot("MID", speed, -40 * 5)
-                drop()
-                planner.move_robot("MID", speed, 20 * 5)
+        if color == "Green":
+            if coordinate is not None:
+                if coordinate[0] < x:
+                    planner.move_robot("MID", speed, 0 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -40 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
 
-                return "p1"
-            elif x <= coordinate[0] < x2:
-                planner.move_robot("MID", speed, 10 * 5)
-                pick_and_raise()
-                planner.move_robot("MID", speed, -40 * 5)
-                drop()
-                planner.move_robot("MID", speed, 20 * 5)
-                return "p2"
-            elif x2 <= coordinate[0] < x3:  # Center
-                planner.move_robot("MID", speed, 20 * 5)
-                pick_and_raise()
-                planner.move_robot("MID", speed, -40 * 5)
-                drop()
-                planner.move_robot("MID", speed, 20 * 5)
-                return "p3"
-            elif x3 <= coordinate[0] < x4:
-                planner.move_robot("MID", speed, 30 * 5)
-                pick_and_raise()
-                planner.move_robot("MID", speed, -40 * 5)
-                drop()
-                planner.move_robot("MID", speed, 20 * 5)
-                return "p4"
-            elif coordinate[0] > x4:
-                planner.move_robot("MID", speed, 40 * 5)
-                pick_and_raise()
-                planner.move_robot("MID", speed, -40 * 5)
-                drop()
-                planner.move_robot("MID", speed, 20 * 5)
-                return "p5"
-            else:
-                return "Outside Camera Range"
+                    return "p1"
+                elif x <= coordinate[0] < x2:
+                    planner.move_robot("MID", speed, 10 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -40 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p2"
+                elif x2 <= coordinate[0] < x3:  # Center
+                    planner.move_robot("MID", speed, 20 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -40 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p3"
+                elif x3 <= coordinate[0] < x4:
+                    planner.move_robot("MID", speed, 30 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -40 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p4"
+                elif coordinate[0] > x4:
+                    planner.move_robot("MID", speed, 40 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -40 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p5"
+                else:
+                    return "Outside Camera Range"
+
+        if color == "Yellow":
+            if coordinate is not None:
+                if coordinate[0] < x:
+                    planner.move_robot("MID", speed, 0 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -60 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+
+                    return "p1"
+                elif x <= coordinate[0] < x2:
+                    planner.move_robot("MID", speed, 10 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -60 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p2"
+                elif x2 <= coordinate[0] < x3:  # Center
+                    planner.move_robot("MID", speed, 20 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -40 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p3"
+                elif x3 <= coordinate[0] < x4:
+                    planner.move_robot("MID", speed, 30 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -60 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p4"
+                elif coordinate[0] > x4:
+                    planner.move_robot("MID", speed, 40 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, -60 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p5"
+                else:
+                    return "Outside Camera Range"
+
+        if color == "Red":
+            if coordinate is not None:
+                if coordinate[0] < x:
+                    planner.move_robot("MID", speed, 0 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, 90 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+
+                    return "p1"
+                elif x <= coordinate[0] < x2:
+                    planner.move_robot("MID", speed, 10 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, 90 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p2"
+                elif x2 <= coordinate[0] < x3:  # Center
+                    planner.move_robot("MID", speed, 20 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, 90 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p3"
+                elif x3 <= coordinate[0] < x4:
+                    planner.move_robot("MID", speed, 30 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, 90 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p4"
+                elif coordinate[0] > x4:
+                    planner.move_robot("MID", speed, 40 * 5)
+                    pick_and_raise()
+                    planner.move_robot("MID", speed, 90 * 5)
+                    drop()
+                    planner.move_robot("MID", speed, 20 * 5)
+                    return "p5"
+                else:
+                    return "Outside Camera Range"
     except:
         pass
 
 
 while True:
-    cube_cordinates = identify_cubes()
-    for coordinate in cube_cordinates:
-        robot_arm_map = check_position(coordinate)
+    color_cube_map = identify_cubes()
+    for color in color_cube_map:
+        print(color_cube_map[color])
+        robot_arm_map = check_position(color_cube_map[color], color)
         print(robot_arm_map)
-    cube_cordinates.clear()
+        cube_coordinates_image.clear()
+        cube_color_image.clear()
