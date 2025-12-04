@@ -14,6 +14,10 @@ def pick_and_raise():
     planner.move_robot("LEFT", speed, 240)
     servo_operations.set_angle(20)
     planner.move_robot("LEFT", speed, 90)
+    # servo_operations.set_angle(90)
+
+
+def drop():
     servo_operations.set_angle(90)
 
 
@@ -30,6 +34,7 @@ def identify_cubes():
     color_ranges = {
         "Yellow": ([20, 100, 100], [30, 255, 255], [0, 255, 255]),
         "Green": ([40, 70, 70], [80, 255, 255], [0, 255, 0]),
+        "Red": ([170, 70, 70], [180, 255, 255], [0, 0, 255]),
         # "Blue": ([90, 70, 70], [130, 255, 255], [255, 0, 0]),
     }
     cap = cv2.VideoCapture(0)
@@ -77,25 +82,37 @@ def check_position(coordinate):
             if coordinate[0] < x:
                 planner.move_robot("MID", speed, 0 * 5)
                 pick_and_raise()
+                planner.move_robot("MID", speed, -40 * 5)
+                drop()
                 planner.move_robot("MID", speed, 20 * 5)
+
                 return "p1"
             elif x <= coordinate[0] < x2:
                 planner.move_robot("MID", speed, 10 * 5)
                 pick_and_raise()
+                planner.move_robot("MID", speed, -40 * 5)
+                drop()
                 planner.move_robot("MID", speed, 20 * 5)
                 return "p2"
             elif x2 <= coordinate[0] < x3:  # Center
                 planner.move_robot("MID", speed, 20 * 5)
                 pick_and_raise()
+                planner.move_robot("MID", speed, -40 * 5)
+                drop()
+                planner.move_robot("MID", speed, 20 * 5)
                 return "p3"
             elif x3 <= coordinate[0] < x4:
                 planner.move_robot("MID", speed, 30 * 5)
                 pick_and_raise()
+                planner.move_robot("MID", speed, -40 * 5)
+                drop()
                 planner.move_robot("MID", speed, 20 * 5)
                 return "p4"
             elif coordinate[0] > x4:
                 planner.move_robot("MID", speed, 40 * 5)
                 pick_and_raise()
+                planner.move_robot("MID", speed, -40 * 5)
+                drop()
                 planner.move_robot("MID", speed, 20 * 5)
                 return "p5"
             else:
